@@ -1,0 +1,8 @@
+function palindrome(str) {
+  let string=str.split(/[\W|\s|_]/g).join("").toLowerCase();
+  console.log(string);
+  let reverse=string.split("").reverse().join("");
+  console.log(reverse);
+  return string===reverse;
+}
+console.log(palindrome("five|\_/|four."));
