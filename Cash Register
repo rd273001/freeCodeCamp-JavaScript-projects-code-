@@ -1,0 +1,55 @@
+function checkCashRegister(price, cash, cid) {
+  let change={};
+  change.status="OPEN";
+  change.change=[];
+  // finding total amount in drawer
+  let totalAmountInCid=
+  Math.round(cid.reduce((acc,coin) => acc+coin[1],0)*100)/100;
+  // handling insufficient funds case
+  let amountDue=Math.round((cash-price)*100)/100;
+  if(amountDue > totalAmountInCid) {
+    change.status="INSUFFICIENT_FUNDS";
+    return change;
+  }
+  // handling amount due equal to total amount in drawer case
+  else if(amountDue == totalAmountInCid) {
+    change.status="CLOSED";
+    change.change=cid;
+    return change;
+  }
+  // handling correct amount or due amount less than cid case
+  else {
+    const AMOUNTS={"ONE HUNDRED":100,TWENTY:20,TEN:10,FIVE:5,ONE:1,QUARTER:0.25,DIME:0.1,NICKEL:0.05,PENNY:0.01};
+
+    Object.keys(AMOUNTS).forEach((key) => {
+      if(amountDue > AMOUNTS[key]) {
+        let amountInCid=0;
+        cid.forEach(type => {
+          if(type[0] == key) {       //Quarter==Quarter
+            amountInCid=type[1];     //4.25
+          }
+        });
+        let amountDueBefore=amountDue;     //amountduebefore=0.6
+        console.log(amountDue);
+        let noOfUnits = Math.floor(amountDue / AMOUNTS[key]);
+        amountDue=amountDue % AMOUNTS[key];  //amountdue=0.6%0.25=0.1
+        amountDue=Math.round(amountDue*100)/100;  //0.1
+        let difference=Math.round((amountDueBefore-amountDue)*100)/100;   //differnce= 0.6-0.1=0.5
+        if(difference > amountInCid) {    //0.5>4.25 =>false
+          noOfUnits = Math.round((amountInCid / AMOUNTS[key])*100)/100;
+          change.change.push([key,amountInCid]); 
+          amountDue = amountDueBefore - amountInCid; 
+        } else {
+          change.change.push([key,difference]);  //([quarter,0.5])
+        }
+        }
+    });
+    if(amountDue > 0) {
+          change.status="INSUFFICIENT_FUNDS";
+          change.change=[];
+          return change;
+        }
+  }
+  return change;
+}
+console.log(checkCashRegister(19.20, 20, [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.1], ["QUARTER", 0.75], ["ONE", 90], ["FIVE", 55], ["TEN", 20], ["TWENTY", 60], ["ONE HUNDRED", 100]]));
