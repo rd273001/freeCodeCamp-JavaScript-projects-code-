@@ -1,0 +1,17 @@
+function rot13(str) {
+  let string="";
+  for(let i=0;i<str.length;i++) {
+    if(str.charCodeAt(i)>=65 && str.charCodeAt(i)<=90) {
+      if((str.charCodeAt(i)+13)>90) {
+        string+=String.fromCharCode(64+(13-(90-str.charCodeAt(i))));
+      } else {
+        string+=String.fromCharCode(str.charCodeAt(i)+13);
+      }
+    } else {
+      string+=str.charAt(i);
+    }
+  }
+  return string;
+}
+
+console.log(rot13("SERR PBQR PNZC"));
