@@ -1,2 +1,2 @@
-# freeCodeCamp-JavaScript-projects-code-
-Codes of freeCodeCamp JavaScript Algorithms and Data Structures course's projects module
+# freeCodeCamp-JavaScript-projects-code-solutions-
+Solutions of freeCodeCamp JavaScript Algorithms and Data Structures Certification course's projects module
